@@ -118,6 +118,12 @@ echo "}" >> "$NGINX_CONFIG"
 ln -s "$NGINX_CONFIG" "/etc/nginx/sites-enabled"
 nginx -t
 nginx -s reload
+
+echo "Reinstall SSL certificate..."
+certbot --nginx -d upakovka.avantapack.ru -d avantapack.ip03.ru --reinstall
+nginx -t
+nginx -s reload
+
 systemctl status "${PROJECT_NAME}_${env}"
 
 
