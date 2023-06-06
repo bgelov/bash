@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+
+# Bash script for deploy Test Django project (venv + gunicorn + nginx + django-environ) on Ununtu server from GitHub repository.
+
+
 set -Eeuo pipefail
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd -P)
 
