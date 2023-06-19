@@ -4,7 +4,8 @@ set -Eeuo pipefail
 echo "Generation web.yml for Prometheus basic authentication."
 echo "Enter username:"
 read htpasswd_username
-htpasswd_string=$(htpasswd -nBC 17 "$htpasswd_username")
+echo "Run htpasswd generator..."
+htpasswd_string=$(htpasswd -nBC 12 "" | tr -d ':\n')
 
 echo "Creating web.yml..."
 if [ -f "web.yml" ]
@@ -14,7 +15,7 @@ then
 	  y|Y )
 		echo "yes"
 		echo "basic_auth_users:" > web.yml
-		echo "  $htpasswd_string" >> web.yml
+		echo "  $htpasswd_username: $htpasswd_string" >> web.yml
 		;;
 	  n|N )
 		echo "no";
@@ -22,7 +23,7 @@ then
 		case "$choice" in 
 		  y|Y )
 			echo "yes"
-			echo "  $htpasswd_string" >> web.yml
+			echo "  $htpasswd_username: $htpasswd_string" >> web.yml
 			;;
 		  n|N )
 			echo "no";
@@ -38,6 +39,9 @@ then
 		echo "invalid"
 		;;
 	esac
+else
+	echo "basic_auth_users:" > web.yml
+	echo "  $htpasswd_username: $htpasswd_string" >> web.yml
 fi
 
 
